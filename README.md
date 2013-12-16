@@ -7,7 +7,7 @@ Simple gem to generate a menu from the source html files.
 Add this line to your application's Gemfile:
 
     gem 'middleman', '~>3.2' # Requires latest middleman
-    gem 'middleman-nestednav'
+    gem 'middleman-nestednav', github: 'neilang/middleman-nestednav', tag: '0.0.1'
 
 Execute:
 
