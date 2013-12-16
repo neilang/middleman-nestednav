@@ -7,7 +7,7 @@ module Middleman
     include Enumerable
 
     attr_accessor :parent
-    attr_accessor :title
+    attr_reader   :title
     attr_accessor :path
     attr_accessor :children
 
@@ -30,7 +30,7 @@ module Middleman
       value.parent = self
     end
 
-    def each &block
+    def each(&block)
       @children.each do |child|
         if block_given?
           block.call child
@@ -49,8 +49,13 @@ module Middleman
     end
 
     def full_path
-      return path if root?
+      return '' if root?
       [parent.full_path, path].join('/')
+    end
+
+    def title
+      has_index = self['index.html']
+      t = has_index ? has_index.title : @title
     end
 
     def self.recursively_create(nav_item, title, path)
