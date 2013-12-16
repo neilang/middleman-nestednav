@@ -1,29 +1,52 @@
 # Middleman::Nestednav
 
-TODO: Write a gem description
+Simple gem to generate a menu from the source html files.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
+    gem 'middleman', '~>3.2' # Requires latest middleman
     gem 'middleman-nestednav'
 
-And then execute:
+Execute:
 
-    $ bundle
+    $ bundle install
 
-Or install it yourself as:
+In your `config.rb` add:
 
-    $ gem install middleman-nestednav
+    activate :nested_nav
 
 ## Usage
 
-TODO: Write usage instructions here
+To access the menu nested menu structure call `nested_nav` in your template.
 
-## Contributing
+### Simple usage
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Slim example:
+
+    nav
+      ul
+        - nested_nav.each do |nav_item|
+          li
+            = link_to nav_item.title, nav_item.full_path
+            - if nav_item.children?
+              ul
+                - nav_item.each do |sub_nav_item|
+                  li= link_to sub_nav_item.title, sub_nav_item.full_path
+
+### Recursive partial example
+
+Create a partial called `_nested_nav.html.slim`:
+
+    ul
+      - nav.each do |nav_item|
+        li
+          = link_to nav_item.title, nav_item.full_path
+          - if nav_item.children?
+            = partial '_nested_nav', locals: { nav: nav_item }
+
+Then include this line in your main layout file:
+
+    nav= partial '_nested_nav', locals: { nav: nested_nav }
+
