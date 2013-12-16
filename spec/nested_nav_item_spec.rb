@@ -38,6 +38,12 @@ describe Middleman::NestedNavItem do
     subject.root?.should be_false
   end
 
+  it "should not include index in its sub pages" do
+    index = Middleman::NestedNavItem.new('Home', 'index.html')
+    subject << index
+    subject.sub_pages.should_not include(index)
+  end
+
   describe "recursive create" do
     let(:root){ Middleman::RootNestedNavItem.new }
 

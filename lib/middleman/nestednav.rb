@@ -25,13 +25,17 @@ module Middleman
       return nil
     end
 
+    def sub_pages
+      @children - [self['index.html']]
+    end
+
     def <<(value)
       self.children << value
       value.parent = self
     end
 
     def each(&block)
-      @children.each do |child|
+      sub_pages.each do |child|
         if block_given?
           block.call child
         else
@@ -41,7 +45,7 @@ module Middleman
     end
 
     def children?
-      @children.size > 0
+      sub_pages.size > 0
     end
 
     def root?
@@ -54,8 +58,8 @@ module Middleman
     end
 
     def title
-      has_index = self['index.html']
-      t = has_index ? has_index.title : @title
+      index_page = self['index.html']
+      t = index_page ? index_page.title : @title
     end
 
     def self.recursively_create(nav_item, title, path)
@@ -77,6 +81,10 @@ module Middleman
   class RootNestedNavItem < NestedNavItem
     def initialize
       super('', '/')
+    end
+
+    def sub_pages
+      @children
     end
   end
 
