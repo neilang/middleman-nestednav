@@ -1,4 +1,4 @@
-# Middleman::Nestednav
+# Middleman Nested Nav Gem
 
 Simple gem to generate a menu from the source html files.
 
